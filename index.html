@@ -1,0 +1,44 @@
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Тесты</title>
+    <link rel="stylesheet" href="./main.css">
+
+</head>
+<body>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
+    
+    <script>
+        let scene = new THREE.Scene();
+        let camera = new THREE.PerspectiveCamera(65, window.innerWidth / window.innerHeight, 0.1, 10000);
+        camera.position.z = 3;
+
+        let renderer = new THREE.WebGLRenderer();
+        //renderer.setClearColor(000000);
+        renderer.setSize(innerWidth, innerHeight);
+
+        renderer.domElement.setAttribute("id", "Church3DObj");
+        document.body.insertBefore(renderer.domElement, document.body.firstChild);
+
+        let controls = new THREE.OrbitControls(camera, renderer.domElement);
+
+        const aLight = new THREE.DirectionalLight(0xffffff, 6.5);
+        aLight.position.setScalar(10);
+        scene.add(aLight, new THREE.AmbientLight(0xffffff, 0.5));
+
+        let loader = new THREE.GLTFLoader();
+        let obj = null;
+
+        loader.load('./castle.glb', function(gltf) {
+        obj = gltf.scene;
+        scene.add(obj);
+        });
+
+        renderer.setAnimationLoop(_ => {
+        renderer.render(scene, camera);
+        })
+
+    </script>
+</body>
+</html>
